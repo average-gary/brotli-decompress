@@ -20,6 +20,8 @@ struct Args {
     output: Option<PathBuf>,
 }
 
+const NEWLINE: &[u8] = b"\n";
+
 fn main() -> Result<()> {
     pretty_env_logger::init();
     let args = Args::parse();
@@ -71,6 +73,7 @@ fn main() -> Result<()> {
                         break;
                     }
                     output_writer.write_all(&buf[..size])?;
+                    output_writer.write(NEWLINE)?;
                     let text =
                         String::from_utf8(buf[..size].to_vec()).expect("no string from utf8");
                     debug!("decompressed to: {}", text);
